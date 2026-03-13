@@ -1,396 +1,914 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yatharth Singh | Data Analyst — SQL · Python · MIS Automation · Mumbai</title>
+<meta name="description" content="Yatharth Singh is a Data Analyst with 1+ year of experience in SQL, Python, MIS reporting, KPI dashboards, customer segmentation, and AI-augmented analytics. Open to Data Analyst, Product Analyst, and Business Intelligence roles.">
+<meta name="keywords" content="Data Analyst, SQL, Python, MIS Reporting, KPI Dashboard, Business Intelligence, Customer Segmentation, Cohort Analysis, Data Automation, Product Analytics, Mumbai, Yatharth Singh">
+<meta property="og:title" content="Yatharth Singh — Data Analyst | SQL · Python · MIS Automation">
+<meta property="og:description" content="Data Analyst with proven impact: 80% reporting accuracy improvement, 20% campaign conversion uplift, 4–5 hrs/day automation savings. Open to new opportunities.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─────────── TOKENS ─────────── */
+:root {
+  --ink:     #08080e;
+  --paper:   #f0ede6;
+  --paper2:  #e8e4db;
+  --orange:  #ff4d00;
+  --blue:    #0a2fff;
+  --teal:    #00e5c8;
+  --muted:   #6b6660;
+  --white:   #f9f7f2;
+  --pad-x:   clamp(20px, 5vw, 72px);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: 'Syne', sans-serif; font-weight: 400;
+  overflow-x: hidden; cursor: none;
+  line-height: 1.5;
+}
+img { max-width: 100%; display: block; }
+a { cursor: none; }
 
-        <!--========== BOX ICONS ==========-->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+/* ─────────── CURSOR (desktop only) ─────────── */
+@media (hover: hover) {
+  #cur {
+    position: fixed; width: 12px; height: 12px;
+    background: var(--orange); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: width .18s, height .18s, background .2s;
+    mix-blend-mode: multiply;
+  }
+  #cur-ring {
+    position: fixed; width: 38px; height: 38px;
+    border: 1.5px solid var(--orange); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: width .32s cubic-bezier(.23,1,.32,1),
+                height .32s cubic-bezier(.23,1,.32,1), opacity .2s;
+    opacity: .55;
+  }
+  body { cursor: none; }
+}
 
-        <!--========== CSS ==========-->
-        <link rel="stylesheet" href="assets/css/styles.css">
+/* ─────────── NAV ─────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 600;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px var(--pad-x);
+  backdrop-filter: blur(12px);
+  background: rgba(240,237,230,0.75);
+  border-bottom: 1px solid rgba(8,8,14,.07);
+  transition: background .3s;
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.45rem; letter-spacing: .1em;
+  color: var(--ink); text-decoration: none;
+  flex-shrink: 0;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--ink); text-decoration: none; opacity: .55; transition: opacity .2s;
+}
+.nav-links a:hover { opacity: 1; }
 
-        <title>Yatharth Singh Portfolio</title>
-    </head>
-    <body>
-        <!--========== HEADER ==========-->
-        <header class="l-header" id="header">
-            <nav class="nav bd-container">
-                <a href="#" class="nav_logo">Yatharth </a>
-                <div class="nav_menu" id="nav-menu">
-                    <ul class="nav_list">
-                        <li class="nav_item">
-                            <a href="#home" class="nav__link">
-                                <i class='bx bx-home nav__icon'></i>Home
-                            </a>
-                        </li>
+/* hamburger */
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; padding: 4px; cursor: none;
+}
+.hamburger span {
+  display: block; width: 24px; height: 2px;
+  background: var(--ink); border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-                        <li class="nav_item">
-                            <a href="#profile" class="nav__link">
-                                <i class='bx bx-user nav__icon' ></i>Profile
-                            </a>
-                        </li>
+/* mobile drawer */
+.nav-drawer {
+  display: none; position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--ink); z-index: 550;
+  flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+  opacity: 0; pointer-events: none; transition: opacity .35s;
+}
+.nav-drawer.open { opacity: 1; pointer-events: all; }
+.nav-drawer a {
+  font-family: 'Bebas Neue', sans-serif; font-size: 3rem;
+  letter-spacing: .08em; color: var(--white); text-decoration: none;
+  transition: color .2s;
+}
+.nav-drawer a:hover { color: var(--orange); }
+.nav-drawer-close {
+  position: absolute; top: 22px; right: var(--pad-x);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(255,255,255,.4); background: none; border: none; cursor: none;
+}
 
-                        <li class="nav_item">
-                            <a href="#education" class="nav__link">
-                                <i class='bx bx-book nav__icon' ></i>Education
-                            </a>
-                        </li>
+/* ─────────── TICKER ─────────── */
+.ticker-wrap {
+  overflow: hidden; white-space: nowrap;
+  background: var(--orange); padding: 9px 0;
+  border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink);
+  position: relative; z-index: 10;
+}
+.ticker-track { display: inline-flex; animation: ticker 28s linear infinite; }
+.ticker-item {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(.8rem, 2vw, 1rem); letter-spacing: .15em;
+  color: var(--white); padding: 0 24px;
+  display: inline-flex; align-items: center; gap: 24px;
+}
+.ticker-item::after { content: '✦'; color: rgba(255,255,255,.45); }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-                        <li class="nav_item">
-                            <a href="#skills" class="nav__link">
-                                <i class='bx bx-receipt nav__icon'></i>Skills
-                            </a>
-                        </li>
+/* ─────────── HERO ─────────── */
+.hero {
+  min-height: 100svh; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 var(--pad-x) clamp(40px,6vh,80px);
+  overflow: hidden; background: var(--paper);
+}
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    justify-content: flex-start;
+    padding-top: calc(72px + clamp(32px, 8vw, 56px));
+    padding-bottom: clamp(40px, 8vw, 60px);
+  }
+}
+canvas#bgCanvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; opacity: .5;
+}
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(.6rem,.9vw,.72rem); letter-spacing: .2em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 14px;
+  position: relative; z-index: 2;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.hero-eyebrow::before { content: ''; width: 28px; height: 1.5px; background: var(--orange); flex-shrink: 0; }
+.hero-h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4.5rem, 14vw, 15rem);
+  line-height: .88; letter-spacing: -.01em;
+  position: relative; z-index: 2; color: var(--ink);
+}
+.hero-h1 .stroke { -webkit-text-stroke: 2px var(--ink); color: transparent; }
+.hero-h1 .orange { color: var(--orange); }
+.hero-bottom {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-top: clamp(24px,4vh,44px); position: relative; z-index: 2;
+  flex-wrap: wrap; gap: 24px;
+}
+.hero-desc {
+  max-width: 440px;
+  font-size: clamp(.85rem,1.1vw,.95rem);
+  line-height: 1.8; color: var(--muted);
+}
+.hero-desc strong { color: var(--ink); font-weight: 600; }
+.hero-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border: 1.5px solid var(--ink);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink); position: relative; overflow: hidden; text-decoration: none;
+  transition: color .28s;
+}
+.hero-badge::before {
+  content: ''; position: absolute; inset: 0; background: var(--ink);
+  transform: translateX(-101%); transition: transform .32s cubic-bezier(.77,0,.18,1);
+}
+.hero-badge:hover::before { transform: translateX(0); }
+.hero-badge:hover { color: var(--paper); }
+.hero-badge > * { position: relative; z-index: 1; }
+.hero-loc {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .66rem; letter-spacing: .1em; color: var(--muted);
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end;
+}
 
-                        <li class="nav_item">
-                            <a href="#experience" class="nav__link">
-                                <i class='bx bx-briefcase-alt nav__icon' ></i>Experience
-                            </a>
-                        </li>
-                        <li class="nav_item">
-                            <a href="#certificates" class="nav__link">
-                                <i class='bx bx-award nav__icon' ></i>Certificates
-                            </a>
-                        </li>
-                        <!--<li class="nav_item">
-                            <a href="#references" class="nav__link">
-                                <i class='bx bx-link-external nav__icon' ></i>References
-                            </a>
-                        </li>-->
-                    </ul>
-                </div>
-                <div class="nav_toggle" id="nav-toggle">
-                    <i class='bx bx-grid-alt' ></i>
-                </div>
-            </nav>
-        </header>
+/* ─────────── STATS BAND ─────────── */
+.stats-band {
+  background: var(--ink);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+}
+.stat-cell {
+  padding: clamp(28px,5vw,48px) clamp(20px,4vw,44px);
+  border-right: 1px solid rgba(255,255,255,.07);
+  position: relative; overflow: hidden; transition: background .3s;
+}
+.stat-cell:last-child { border-right: none; }
+.stat-cell:hover { background: rgba(255,77,0,.07); }
+.stat-cell::before {
+  content: attr(data-bg);
+  position: absolute; bottom: -12px; right: 6px;
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem,8vw,7rem);
+  color: rgba(255,255,255,.025); line-height: 1; pointer-events: none; transition: color .3s;
+}
+.stat-cell:hover::before { color: rgba(255,77,0,.055); }
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem,4.5vw,3.5rem); color: var(--orange); line-height: 1; margin-bottom: 6px;
+}
+.stat-label { font-size: clamp(.7rem,.9vw,.82rem); color: rgba(240,237,230,.42); line-height: 1.55; max-width: 160px; }
 
-        <main class="l-main bd-container">
-            <!-- All elements within this div, is generated in PDF -->
-            <div class="resume" id="area-cv">
-                <div class="resume__left">
-                    <!--========== HOME ==========-->
-                    <section class="home" id="home">
-                        <div class="home__container section bd-grid">
-                            <div class="home__data bd-grid">
-                                <img src="assets/img/image.jpg" alt="" class="home__img">
-                                <h1 class="home__title">YATHARTH <b>SINGH</b></h1>
-                                <h3 class="home__profession">ML Developer</h3>
-                                <div>
-                                    <a download="" href="assets/pdf/ResumeCV.pdf" class="home__button-movil">Download</a>
-                                </div>
-                            </div>
-                            <div class="home__address bd-grid">
+/* ─────────── SHARED SECTION UTILITIES ─────────── */
+.section-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--orange); display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.section-tag::before { content: ''; width: 22px; height: 1.5px; background: currentColor; flex-shrink: 0; }
+.section-heading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.4rem, 6vw, 6rem); line-height: 1; letter-spacing: .02em;
+}
 
-                                <span class="home__information">
-                                    <i class='bx bx-map home__icon'></i> Raipur, Chhattisgarh
-                                </span>
+/* ─────────── EXPERIENCE ─────────── */
+#experience { background: var(--paper); padding: clamp(60px,8vw,100px) var(--pad-x); }
+.exp-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: clamp(36px,5vw,64px); flex-wrap: wrap; gap: 16px;
+}
+.exp-period-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+  padding: 8px 16px; border: 1.5px solid var(--ink); color: var(--ink);
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+.exp-period-tag::before {
+  content: ''; width: 6px; height: 6px;
+  background: var(--orange); border-radius: 50%; animation: blink 2s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+.exp-grid {
+  display: grid; grid-template-columns: minmax(220px,320px) 1fr;
+  gap: 0; border: 1.5px solid var(--ink); overflow: hidden;
+}
+.exp-left {
+  background: var(--ink); color: var(--white); padding: clamp(28px,4vw,52px) clamp(24px,3.5vw,44px);
+  display: flex; flex-direction: column; justify-content: space-between; gap: 32px;
+}
+.exp-company-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.8rem,3.5vw,2.8rem); line-height: 1.05; color: var(--white); margin-bottom: 8px;
+}
+.exp-role-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
+}
+.exp-desc { font-size: .84rem; color: rgba(240,237,230,.48); line-height: 1.72; }
+.exp-tech-list { display: flex; flex-wrap: wrap; gap: 7px; }
+.exp-tech {
+  padding: 5px 11px; border: 1px solid rgba(255,255,255,.14);
+  font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+  letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.48); transition: all .2s;
+}
+.exp-tech:hover { border-color: var(--orange); color: var(--orange); }
+.exp-right {
+  background: var(--paper); padding: clamp(28px,4vw,52px) clamp(24px,3.5vw,44px);
+  display: flex; flex-direction: column;
+  border-left: 1.5px solid var(--ink);
+}
+.exp-bullet {
+  padding: 18px 0; border-bottom: 1px solid rgba(8,8,14,.08);
+  display: flex; gap: 16px; align-items: flex-start;
+  transition: padding-left .2s;
+}
+.exp-bullet:first-child { padding-top: 0; }
+.exp-bullet:last-child { border-bottom: none; padding-bottom: 0; }
+.exp-bullet:hover { padding-left: 8px; }
+.exp-idx { font-family: 'JetBrains Mono', monospace; font-size: .58rem; color: var(--orange); opacity: .55; margin-top: 3px; flex-shrink: 0; min-width: 22px; }
+.exp-bullet-text { font-size: clamp(.8rem,.95vw,.88rem); color: var(--muted); line-height: 1.72; transition: color .2s; }
+.exp-bullet:hover .exp-bullet-text { color: var(--ink); }
+.exp-bullet-text b { color: var(--ink); font-weight: 600; }
 
-                                <span class="home__information">
-                                    <i class='bx bx-envelope home__icon' ></i> yatharth3107@gmail.com
-                                </span>
+/* ─────────── SKILLS ─────────── */
+#skills { background: var(--ink); padding: clamp(60px,8vw,100px) var(--pad-x); }
+.skills-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: clamp(36px,5vw,64px); flex-wrap: wrap; gap: 16px; }
+.skills-heading { color: var(--white); }
+.skills-heading em { -webkit-text-stroke: 1.5px rgba(255,255,255,.55); color: transparent; font-style: normal; }
+.skills-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+.skill-block {
+  background: var(--ink); padding: clamp(24px,3.5vw,40px) clamp(22px,3vw,36px);
+  border: 1px solid rgba(255,255,255,.06); position: relative; overflow: hidden; transition: background .3s;
+}
+.skill-block:hover { background: #0c0c18; }
+.skill-block::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 2px; background: var(--orange); transition: width .38s cubic-bezier(.77,0,.18,1);
+}
+.skill-block:hover::after { width: 100%; }
+.skill-block-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: rgba(255,255,255,.035); line-height: 1; }
+.skill-block-title {
+  font-family: 'JetBrains Mono', monospace; font-size: .62rem;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--orange);
+  margin-top: 4px; margin-bottom: 22px;
+}
+.pill-group { display: flex; flex-wrap: wrap; gap: 7px; }
+.pill {
+  padding: 6px 13px; background: rgba(255,255,255,.05);
+  font-size: clamp(.7rem,.85vw,.78rem); color: rgba(240,237,230,.5);
+  transition: all .2s; border: 1px solid transparent;
+}
+.pill:hover { background: rgba(255,77,0,.12); color: var(--orange); border-color: rgba(255,77,0,.28); }
 
-                                <span class="home__information">
-                                    <i class='bx bx-phone home__icon' ></i>9827139521
-                                </span>
+/* ─────────── PROJECTS ─────────── */
+#projects { background: var(--paper2); padding: clamp(60px,8vw,100px) var(--pad-x); }
+.proj-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: clamp(36px,5vw,64px); flex-wrap: wrap; gap: 16px; }
+.proj-cards { display: flex; flex-direction: column; gap: 2px; }
+.proj-card {
+  background: var(--paper); border: 1.5px solid rgba(8,8,14,.1);
+  display: grid; grid-template-columns: 72px 1fr auto;
+  align-items: center; gap: clamp(16px,3vw,44px);
+  padding: clamp(24px,4vw,44px) clamp(20px,3.5vw,44px);
+  position: relative; overflow: hidden; transition: border-color .28s, transform .28s;
+}
+.proj-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 0; background: var(--orange); transition: width .38s cubic-bezier(.77,0,.18,1);
+}
+.proj-card:hover { border-color: var(--ink); transform: translateX(5px); }
+.proj-card:hover::before { width: 4px; }
+.proj-card-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,3.5vw,3rem); color: rgba(8,8,14,.1); line-height: 1; position: relative; z-index: 1; transition: color .28s; }
+.proj-card:hover .proj-card-num { color: rgba(255,77,0,.18); }
+.proj-card-body { position: relative; z-index: 1; }
+.proj-card-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.2rem,2.2vw,1.8rem); color: var(--ink); letter-spacing: .03em; margin-bottom: 4px; }
+.proj-card-stack { font-family: 'JetBrains Mono', monospace; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+.proj-card-desc { font-size: clamp(.78rem,.92vw,.86rem); color: var(--muted); line-height: 1.68; }
+.proj-card-impact { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; min-width: 100px; }
+.proj-impact-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem,3.5vw,3rem); color: var(--orange); line-height: 1; }
+.proj-impact-label { font-family: 'JetBrains Mono', monospace; font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-align: right; line-height: 1.5; }
 
-                                <a href="https://www.linkedin.com/in/-yatharth-/" target="_blank" class="social__link">
-                                    <i class='bx bxl-linkedin-square .social__icon' ></i> Yatharth Singh
-                                </a>
+/* ─────────── OPEN TO WORK BANNER ─────────── */
+.otw-banner {
+  background: var(--orange);
+  padding: clamp(28px,4vw,44px) var(--pad-x);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+  border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink);
+}
+.otw-left { display: flex; align-items: center; gap: 16px; }
+.otw-dot { width: 12px; height: 12px; background: var(--white); border-radius: 50%; flex-shrink: 0; animation: blink 1.5s ease infinite; }
+.otw-text { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.4rem,3vw,2.2rem); color: var(--white); letter-spacing: .04em; line-height: 1.1; }
+.otw-text small { display: block; font-family: 'JetBrains Mono', monospace; font-size: clamp(.6rem,.75vw,.7rem); letter-spacing: .15em; text-transform: uppercase; color: rgba(255,255,255,.72); font-weight: 400; margin-top: 4px; }
+.otw-roles { display: flex; gap: 10px; flex-wrap: wrap; }
+.otw-role { padding: 7px 16px; border: 1.5px solid rgba(255,255,255,.55); font-family: 'JetBrains Mono', monospace; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--white); transition: all .2s; }
+.otw-role:hover { background: var(--white); color: var(--orange); border-color: var(--white); }
 
-                                <a href="https://github.com/YatharthSingh31" target="_blank" class="social__link">
-                                    <i class='bx bxl-github .social__icon' ></i> YatharthSingh31
-                                </a>
+/* ─────────── CONTACT ─────────── */
+#contact { background: var(--ink); padding: clamp(60px,8vw,100px) var(--pad-x); position: relative; overflow: hidden; }
+#contact::before {
+  content: 'HIRE ME'; position: absolute; bottom: -30px; right: -10px;
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(8rem,18vw,20rem);
+  color: rgba(255,255,255,.018); line-height: 1; pointer-events: none; letter-spacing: -.02em;
+}
+.contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(36px,7vw,88px); align-items: start; position: relative; z-index: 1; }
+.contact-pretitle { font-family: 'JetBrains Mono', monospace; font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+.contact-pretitle::before { content: ''; width: 18px; height: 1.5px; background: var(--orange); flex-shrink: 0; }
+.contact-big { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem,6.5vw,6.5rem); line-height: .9; color: var(--white); letter-spacing: -.01em; margin-bottom: 24px; }
+.contact-big span { -webkit-text-stroke: 1.5px rgba(255,255,255,.28); color: transparent; display: block; }
+.contact-sub { font-size: clamp(.82rem,.95vw,.92rem); color: rgba(240,237,230,.38); line-height: 1.78; }
+.contact-links { display: flex; flex-direction: column; gap: 2px; }
+.clink {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: clamp(16px,2.5vw,22px) clamp(16px,2.5vw,28px);
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
+  text-decoration: none; position: relative; overflow: hidden; transition: transform .2s;
+}
+.clink::before {
+  content: ''; position: absolute; inset: 0; background: var(--orange);
+  transform: translateX(-101%); transition: transform .38s cubic-bezier(.77,0,.18,1); z-index: 0;
+}
+.clink:hover::before { transform: translateX(0); }
+.clink:hover { transform: translateX(4px); }
+.clink-left { display: flex; align-items: center; gap: 16px; position: relative; z-index: 1; }
+.clink-icon { font-size: 1rem; width: 32px; text-align: center; flex-shrink: 0; color: var(--white); }
+.clink-label { font-family: 'JetBrains Mono', monospace; font-size: .58rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.38); margin-bottom: 2px; transition: color .25s; }
+.clink:hover .clink-label { color: rgba(255,255,255,.65); }
+.clink-val { font-size: clamp(.78rem,.95vw,.88rem); color: var(--white); font-weight: 500; }
+.clink-arrow { font-size: .9rem; color: rgba(255,255,255,.22); position: relative; z-index: 1; transition: color .2s, transform .2s; }
+.clink:hover .clink-arrow { color: var(--white); transform: translateX(5px); }
 
-                            </div>
-                        </div>
-                        <!-- Theme change button -->
-                        <i class='bx bx-moon change-theme' title="Theme" id="theme-button"></i>
-    
-                        <!-- Button to generate and download the pdf. Available for desktop. -->
+/* ─────────── FOOTER ─────────── */
+footer {
+  background: #030308; padding: 24px var(--pad-x);
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid rgba(255,255,255,.05); flex-wrap: wrap; gap: 10px;
+}
+.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: .12em; color: rgba(255,255,255,.18); text-decoration: none; }
+.footer-copy { font-family: 'JetBrains Mono', monospace; font-size: .6rem; letter-spacing: .06em; color: rgba(255,255,255,.18); }
+.footer-status { font-family: 'JetBrains Mono', monospace; font-size: .6rem; letter-spacing: .06em; color: rgba(255,255,255,.18); display: flex; align-items: center; gap: 7px; }
+.footer-dot { width: 6px; height: 6px; background: #00e5a0; border-radius: 50%; animation: blink 2s ease infinite; }
 
-                    </section>          
-                    
-                    <!--========== SOCIAL ==========
-                    <section class="social section">
-                        <h2 class="section-title">SOCIAL</h2>
+/* ─────────── SCROLL REVEAL ─────────── */
+.sr   { opacity: 0; transform: translateY(32px); transition: opacity .75s ease, transform .75s ease; }
+.sr-l { opacity: 0; transform: translateX(-32px); transition: opacity .75s ease, transform .75s ease; }
+.sr-r { opacity: 0; transform: translateX(32px);  transition: opacity .75s ease, transform .75s ease; }
+.sr.vis, .sr-l.vis, .sr-r.vis { opacity: 1; transform: none; }
 
-                        <div class="social__container bd-grid">
-                            <a href="https://www.linkedin.com/in/yatharth-singh-9441a0209/" target="_blank" class="social__link">
-                                <i class='bx bxl-linkedin-square .social__icon' ></i> Yatharth Singh
-                            </a>
+/* ─────────── RESPONSIVE ─────────── */
 
-                            <a href="https://www.instagram.com/y.a.t.h.a.r.t.h_s.i.n.g.h/" target="_blank" class="social__link">
-                                <i class='bx bxl-instagram-alt .social__icon' ></i> @y.a.t.h.a.r.t.h_s.i.n.g.h
-                            </a>
+/* Tablet 768–1024 */
+@media (max-width: 1024px) {
+  .exp-grid { grid-template-columns: 1fr 1.4fr; }
+  .skills-grid { grid-template-columns: repeat(2,1fr); }
+  .proj-card { grid-template-columns: 60px 1fr auto; gap: 20px; }
+}
 
-                            
-                        </div>
-                    </section>-->
+/* Mobile ≤768 */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
 
-                    <!--========== PROFILE ==========-->
-                    <section class="profile section" id="profile">
-                        <h2 class="section-title">Profile</h2>
+  /* hero */
+  .hero-h1 .stroke { -webkit-text-stroke: 1.5px var(--ink); }
+  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .hero-meta { align-items: flex-start; }
+  .hero-loc { justify-content: flex-start; }
 
-                        <p class="profile__description", align="justify"> I am  a B.Tech pre final student at VIT Bhopal specialisation in Artificial Intelligence and Machine learning. I describe myself as an ambitious and a consistent person. The ability to find solutions for any problems be it professional or be it personal and learning through my mistakes is by far the biggest strengths that I posses. I can keep myself motivated in  pressurised situations and can stick to the deadlines.</p>
-                    </section>
-                    
-                    <!--========== EDUCATION ==========-->
-                    <section class="education section" id="education">
-                        <h2 class="section-title">Education</h2>
+  /* stats: 2 col */
+  .stats-band { grid-template-columns: repeat(2,1fr); }
+  .stat-cell:nth-child(2) { border-right: none; }
+  .stat-cell:nth-child(3) { border-top: 1px solid rgba(255,255,255,.07); }
 
-                        <div class="education__container bd-grip">
-                            <div class="education__content">
-                                <div class="education__time">
-                                    <span class="education__rounder"></span>
-                                    <span class="education__line"></span>
-                                </div>
-    
-                                <div class="education__data bd-grid">
-                                    <h3 class="education__title">B.Tech Specialization in AIML</h3>
-                                    <span class="education__studies">VIT Bhopal university</span>
-                                    <span class="education__year">2020 - 2024</span>
-                                </div>
-                            </div>
-                            <br>
+  /* experience: stacked */
+  .exp-grid { grid-template-columns: 1fr; }
+  .exp-left { border-bottom: 1.5px solid rgba(255,255,255,.08); }
+  .exp-right { border-left: none; border-top: 1.5px solid var(--ink); }
 
-                            <div class="education__content">
-                                <div class="education__time">
-                                    <span class="education__rounder"></span>
-                                    <span class="education__line"></span>
-                                </div>
-    
-                                <div class="education__data bd-grid">
-                                    <h3 class="education__title">Class 12<sup>th</sup></h3>
-                                    <span class="education__studies">Krishna Public School</span>
-                                    <span class="education__year">2019 - 2020</span>
-                                </div>
-                            </div>
-                            <br>
+  /* skills: 1 col */
+  .skills-grid { grid-template-columns: 1fr; }
 
-                            <div class="education__content">
-                                <div class="education__time">
-                                    <span class="education__rounder"></span>
-                                    <!--<span class="education__line"></span>-->
-                                </div>
-    
-                                <div class="education__data bd-grid">
-                                     <h3 class="education__title">Class 10<sup>th</sup></h3>
-                                    <span class="education__studies">Krishna Public School</span>
-                                    <span class="education__year">2017 - 2018</span>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
+  /* projects: stacked */
+  .proj-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .proj-card-impact { flex-direction: row; align-items: center; gap: 12px; }
+  .proj-impact-label { text-align: left; }
+  .proj-card-num { display: none; }
 
-                        
-                    </section>
+  /* otw */
+  .otw-banner { flex-direction: column; align-items: flex-start; }
 
+  /* contact */
+  .contact-inner { grid-template-columns: 1fr; gap: 40px; }
 
-                    <!--========== SKILLS  ==========-->
-                    <section class="skills section" id="skills">
-                        <h2 class="section-title">Skills</h2>
+  /* footer */
+  footer { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
 
-                        <div class="skills__content bd-grid">
-                            <ul class="skills__data">
+/* Small mobile ≤480 */
+@media (max-width: 480px) {
+  .hero-h1 { font-size: clamp(3.8rem, 18vw, 5.5rem); }
+  .stat-cell { padding: 24px 18px; }
+  .exp-bullet { gap: 10px; }
+  .exp-idx { display: none; }
+  .proj-card { padding: 22px 18px; }
+}
+</style>
+</head>
+<body>
 
-                                <li class="skills__name">
-                                    <span class="skills__circle"></span>Machine Learning
-                                </li>
+<!-- Cursor -->
+<div id="cur"></div>
+<div id="cur-ring"></div>
 
-                                <li class="skills__name">
-                                    <span class="skills__circle"></span>UI/UX Designing
-                                </li>
+<!-- Mobile Drawer -->
+<div class="nav-drawer" id="drawer">
+  <button class="nav-drawer-close" id="drawerClose">✕ Close</button>
+  <a href="#experience" class="drawer-link">Work</a>
+  <a href="#skills" class="drawer-link">Skills</a>
+  <a href="#projects" class="drawer-link">Projects</a>
+  <a href="#contact" class="drawer-link">Contact</a>
+</div>
 
-                                <li class="skills__name">
-                                    <span class="skills__circle"></span>Python
-                                </li>
+<!-- Nav -->
+<nav>
+  <a href="#" class="nav-logo">YS</a>
+  <ul class="nav-links">
+    <li><a href="#experience">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-                                <li class="skills__name">
-                                    <span class="skills__circle"></span>C/C++
-                                </li>
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <canvas id="bgCanvas"></canvas>
+  <div class="hero-eyebrow">Data Analyst · SQL · Python · MIS Automation · Mumbai</div>
+  <h1 class="hero-h1">
+    <span class="stroke">Yatharth</span><br>
+    <span class="orange">Singh</span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      <strong>Data Analyst with 1+ year of experience</strong> translating complex datasets into strategic decisions. Specialised in scalable MIS systems, KPI reporting, and customer analytics — with a measurable record of <strong>reducing costs, improving accuracy, and driving revenue</strong>.
+    </p>
+    <div class="hero-meta">
+      <a href="#contact" class="hero-badge">
+        <span>Open to opportunities</span>
+        <span>→</span>
+      </a>
+      <div class="hero-loc">📍 Mumbai, India &nbsp;·&nbsp; B.Tech Computer Science · VIT Bhopal · 2024</div>
+    </div>
+  </div>
+</section>
 
-                            </ul>
-                            
-                        </div>
-                    </section>
+<!-- ═══ TICKER ═══ -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">SQL</span><span class="ticker-item">Python</span>
+    <span class="ticker-item">Data Analysis</span><span class="ticker-item">MIS Reporting</span>
+    <span class="ticker-item">KPI Dashboards</span><span class="ticker-item">Business Intelligence</span>
+    <span class="ticker-item">RFM Segmentation</span><span class="ticker-item">Cohort Analysis</span>
+    <span class="ticker-item">Data Automation</span><span class="ticker-item">ETL Pipelines</span>
+    <span class="ticker-item">Behavioral Analytics</span><span class="ticker-item">Campaign Optimization</span>
+    <span class="ticker-item">Product Analytics</span><span class="ticker-item">AI-Augmented Analytics</span>
+    <span class="ticker-item">SQL</span><span class="ticker-item">Python</span>
+    <span class="ticker-item">Data Analysis</span><span class="ticker-item">MIS Reporting</span>
+    <span class="ticker-item">KPI Dashboards</span><span class="ticker-item">Business Intelligence</span>
+    <span class="ticker-item">RFM Segmentation</span><span class="ticker-item">Cohort Analysis</span>
+    <span class="ticker-item">Data Automation</span><span class="ticker-item">ETL Pipelines</span>
+    <span class="ticker-item">Behavioral Analytics</span><span class="ticker-item">Campaign Optimization</span>
+    <span class="ticker-item">Product Analytics</span><span class="ticker-item">AI-Augmented Analytics</span>
+  </div>
+</div>
 
-                </div>
+<!-- ═══ STATS ═══ -->
+<div class="stats-band sr">
+  <div class="stat-cell" data-bg="80">
+    <div class="stat-num">80%</div>
+    <div class="stat-label">Gain in cross-platform reporting accuracy via dynamic SQL validation</div>
+  </div>
+  <div class="stat-cell" data-bg="5">
+    <div class="stat-num">4–5 hrs</div>
+    <div class="stat-label">Saved daily by automating MIS pipelines with Python & Apps Script</div>
+  </div>
+  <div class="stat-cell" data-bg="20">
+    <div class="stat-num">20%</div>
+    <div class="stat-label">Uplift in campaign conversion via RFM-driven customer segmentation</div>
+  </div>
+  <div class="stat-cell" data-bg="50">
+    <div class="stat-num">50+</div>
+    <div class="stat-label">SQL & Python analyses delivered across product, marketing & business</div>
+  </div>
+</div>
 
-                <div class="resume__right">
-                    <!--========== EXPERIENCE ==========-->
-                    <section class="experience section" id="experience">
-                        <h2 class="section-title">Experience</h2>
+<!-- ═══ ABOUT ═══ -->
+<section id="about" style="background:var(--paper2); padding: clamp(60px,8vw,100px) var(--pad-x);">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(36px,7vw,88px); align-items:start;" class="about-inner sr">
+    <div>
+      <div class="section-tag">00 — Profile Summary</div>
+      <h2 class="section-heading" style="margin-bottom:28px;">About<br>Yatharth</h2>
+      <p style="font-size:clamp(.88rem,1.05vw,.97rem); color:var(--muted); line-height:1.85; margin-bottom:20px;">
+        Results-driven <strong style="color:var(--ink)">Data Analyst</strong> with 1+ year of hands-on experience in the financial services industry, specialising in <strong style="color:var(--ink)">SQL-based data engineering, Python automation, MIS reporting, and customer analytics</strong>. Currently contributing to the Product & Business Intelligence function at Axis Securities Limited, Mumbai.
+      </p>
+      <p style="font-size:clamp(.88rem,1.05vw,.97rem); color:var(--muted); line-height:1.85; margin-bottom:20px;">
+        I combine strong technical skills with business acumen — translating complex datasets into actionable insights that inform product decisions, optimise marketing spend, and improve operational efficiency. Experienced in collaborating cross-functionally with product managers, marketing leads, and senior stakeholders to deliver analytics that create measurable impact.
+      </p>
+      <p style="font-size:clamp(.88rem,1.05vw,.97rem); color:var(--muted); line-height:1.85;">
+        What sets me apart: a <strong style="color:var(--ink)">forward-leaning approach to AI-augmented analytics</strong> — leveraging tools like Claude AI, Gemini, and ChatGPT to accelerate SQL development, automate repetitive workflows, and prototype solutions faster than traditional methods.
+      </p>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:16px;">
+      <div style="background:var(--paper); border:1.5px solid rgba(8,8,14,.1); padding:24px 28px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--orange); margin-bottom:14px;">Education</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:1.4rem; color:var(--ink); letter-spacing:.03em; margin-bottom:4px;">B.Tech — Computer Science & Engineering</div>
+        <div style="font-size:.85rem; color:var(--muted);">Vellore Institute of Technology, Bhopal &nbsp;·&nbsp; 2020–2024</div>
+      </div>
+      <div style="background:var(--paper); border:1.5px solid rgba(8,8,14,.1); padding:24px 28px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--orange); margin-bottom:14px;">Industry Experience</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:1.4rem; color:var(--ink); letter-spacing:.03em; margin-bottom:4px;">Financial Services · Stockbroking</div>
+        <div style="font-size:.85rem; color:var(--muted);">Axis Securities Limited, Mumbai &nbsp;·&nbsp; Jul 2024–Present</div>
+      </div>
+      <div style="background:var(--paper); border:1.5px solid rgba(8,8,14,.1); padding:24px 28px;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--orange); margin-bottom:14px;">Domain Strengths</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <span style="padding:5px 12px; background:rgba(255,77,0,.07); border:1px solid rgba(255,77,0,.2); font-size:.76rem; color:var(--orange);">Product Analytics</span>
+          <span style="padding:5px 12px; background:rgba(255,77,0,.07); border:1px solid rgba(255,77,0,.2); font-size:.76rem; color:var(--orange);">Business Intelligence</span>
+          <span style="padding:5px 12px; background:rgba(255,77,0,.07); border:1px solid rgba(255,77,0,.2); font-size:.76rem; color:var(--orange);">Data Engineering</span>
+          <span style="padding:5px 12px; background:rgba(255,77,0,.07); border:1px solid rgba(255,77,0,.2); font-size:.76rem; color:var(--orange);">Marketing Analytics</span>
+          <span style="padding:5px 12px; background:rgba(255,77,0,.07); border:1px solid rgba(255,77,0,.2); font-size:.76rem; color:var(--orange);">Fintech & BFSI</span>
+          <span style="padding:5px 12px; background:rgba(255,77,0,.07); border:1px solid rgba(255,77,0,.2); font-size:.76rem; color:var(--orange);">AI-Augmented Workflows</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                        <div class="experience__container bd-grid">
-                            <div class="experience__content">
-                                <div class="experience__time">
-                                    <span class="experience__rounder"></span>
-                                    <span class="experience__line"></span>
-                                </div>
-                                <div class="experience__data bd-grid">
-                                    <h3 class="experience__title">INTERNSHIP</h3>
-                                    <h6><span class="experience__company">From Jun 2023 - Jul 2023 | Smart Bridge Pvt Ltd.</span></h6>
-                                    <p class="experience__description", align="justify">
-                                        - Project: Virtual Eye-Lifeguard<br>
-                                        - Implemented cutting-edge solution for swimming pools, achieving real-time detection of active drowning incidents, and reducing response time by 90%.<br>
-                                        - Utilized YOLOv5-based application with advanced object detection algorithms, resulting in the identification of 70% potential drowning situations.<br>
-                                        - Conducted workload assessments, optimizing operational processes, and achieving a notable 40% increase in productivity, ensuring swift response measures, and maximizing swimmer safety.<br>
-                                        - Role: Machine Learning (Image Annotation, Model Training and Testing).<br>
-                                    </p>
-                                    <h6><span class="experience__company">From Jul 2022 - Aug 2022 | Spice Money Pvt Ltd.</span></h6>
-                                    <p class="experience__description", align="justify">
-                                        - Project: Fraud Payment Prediction<br>
-                                        - Led 30-day dataset curation, improving fraud detection by 60% through reliable data for predictive modeling.<br>
-                                        - Implemented effective fraud prevention strategies, resulting in a 30% decrease in fraudulent transactions.<br>
-                                        - Achieved tangible results through data-driven approaches, leading to a 25% improvement in operational
-                                        efficiency and a 10% reduction in customer complaints.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+<style>
+@media(max-width:768px){
+  .about-inner { grid-template-columns: 1fr !important; }
+}
+</style>
+<section id="experience">
+  <div class="exp-header sr">
+    <div>
+      <div class="section-tag">01 — Work Experience</div>
+      <h2 class="section-heading">Professional<br>Experience</h2>
+    </div>
+    <div class="exp-period-tag">Jul 2024 — Present · Full-time</div>
+  </div>
+  <div class="exp-grid sr">
+    <div class="exp-left">
+      <div>
+        <div class="exp-company-name">Axis<br>Securities<br>Limited</div>
+        <div class="exp-role-tag">Data Analyst — Product & Business Intelligence · Mumbai</div>
+        <p class="exp-desc">
+          Axis Securities is one of India's leading full-service stockbroking firms. Embedded in the Product team, I own the end-to-end analytics lifecycle — from pipeline engineering and data quality to stakeholder dashboards that directly drive product strategy and revenue decisions.
+        </p>
+      </div>
+      <div class="exp-tech-list">
+        <div class="exp-tech">SQL</div>
+        <div class="exp-tech">Python</div>
+        <div class="exp-tech">Google Apps Script</div>
+        <div class="exp-tech">CleverTap</div>
+        <div class="exp-tech">Netcore</div>
+        <div class="exp-tech">Advanced Excel</div>
+      </div>
+    </div>
+    <div class="exp-right">
+      <div class="exp-bullet">
+        <span class="exp-idx">01</span>
+        <span class="exp-bullet-text"><b>Re-engineered platform data tagging logic</b> using dynamic SQL validation frameworks, resolving systemic inconsistencies across revenue, trading volume, and UTC metrics — improving cross-platform reporting accuracy by <b>80%</b>.</span>
+      </div>
+      <div class="exp-bullet">
+        <span class="exp-idx">02</span>
+        <span class="exp-bullet-text"><b>Designed and deployed a fully automated MIS reporting system</b> (SQL + Python + Google Apps Script) with dynamic architecture that auto-onboards new platforms — eliminating manual maintenance and enabling real-time business visibility.</span>
+      </div>
+      <div class="exp-bullet">
+        <span class="exp-idx">03</span>
+        <span class="exp-bullet-text"><b>Built and maintained production KPI dashboards</b> tracking Unique Login Count (ULC), Unique Trader Count (UTC), net revenue, and trading volume — the primary data source for product managers and senior leadership decision-making.</span>
+      </div>
+      <div class="exp-bullet">
+        <span class="exp-idx">04</span>
+        <span class="exp-bullet-text">Conducted <b>50+ exploratory data analyses (EDA)</b> across product, marketing, and business verticals — identifying user behaviour patterns, engagement drop-off points, and platform performance gaps using SQL and Python (Pandas, NumPy).</span>
+      </div>
+      <div class="exp-bullet">
+        <span class="exp-idx">05</span>
+        <span class="exp-bullet-text"><b>Automated end-to-end reporting pipelines in Python</b>, reducing manual reporting effort by 80% and reclaiming 4–5 person-hours daily. Leveraged AI-assisted query optimisation (Claude AI, ChatGPT, Gemini) to reduce development and debugging cycles by 50%.</span>
+      </div>
+      <div class="exp-bullet">
+        <span class="exp-idx">06</span>
+        <span class="exp-bullet-text"><b>Built customer segmentation and behavioural analytics models</b> (RFM, cohort, migration analysis), improving customer retention by 10–15% and enabling data-driven campaign strategies that lifted conversion rates by <b>20%</b> across targeted user segments.</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-                    <!--========== CERTIFICATES ==========-->
-                    <section class="certificate section" id="certificates">
-                        <h2 class="section-title">Certificates</h2><br>
+<!-- ═══ SKILLS ═══ -->
+<section id="skills">
+  <div class="skills-top sr">
+    <div>
+      <div class="section-tag" style="color:var(--teal)">02 — Core Competencies</div>
+      <h2 class="section-heading skills-heading">Skills &<br><em>Expertise</em></h2>
+    </div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-block sr">
+      <div class="skill-block-num">01</div>
+      <div class="skill-block-title">Programming & Data Engineering</div>
+      <div class="pill-group">
+        <span class="pill">SQL</span>
+        <span class="pill">Python</span>
+        <span class="pill">Pandas</span>
+        <span class="pill">NumPy</span>
+        <span class="pill">Data Cleaning</span>
+        <span class="pill">Data Modeling</span>
+        <span class="pill">ETL Pipelines</span>
+        <span class="pill">Query Optimisation</span>
+        <span class="pill">Data Automation</span>
+        <span class="pill">Google Apps Script</span>
+      </div>
+    </div>
+    <div class="skill-block sr">
+      <div class="skill-block-num">02</div>
+      <div class="skill-block-title">Analytics & Business Intelligence</div>
+      <div class="pill-group">
+        <span class="pill">KPI Reporting</span>
+        <span class="pill">MIS Reporting</span>
+        <span class="pill">Business Intelligence</span>
+        <span class="pill">Customer Segmentation</span>
+        <span class="pill">RFM Analysis</span>
+        <span class="pill">Cohort Analysis</span>
+        <span class="pill">Campaign Analytics</span>
+        <span class="pill">Behavioural Analytics</span>
+        <span class="pill">Exploratory Data Analysis</span>
+        <span class="pill">Data Storytelling</span>
+      </div>
+    </div>
+    <div class="skill-block sr">
+      <div class="skill-block-num">03</div>
+      <div class="skill-block-title">Tools, Platforms & AI Stack</div>
+      <div class="pill-group">
+        <span class="pill">Advanced Excel</span>
+        <span class="pill">CleverTap</span>
+        <span class="pill">Netcore</span>
+        <span class="pill">ChatGPT</span>
+        <span class="pill">Claude AI</span>
+        <span class="pill">Gemini AI</span>
+        <span class="pill">Figma AI</span>
+        <span class="pill">Grok</span>
+        <span class="pill">Prompt Engineering</span>
+        <span class="pill">AI-Augmented Analytics</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-                        <div class="certificate__container bd-grid">
-                            <p class="certificate__title">Applied Machine Learning in Python(Coursera)</p>
-                            <!--<p class="certificate__description">Coursera</p>-->
-                        </div><br>
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects">
+  <div class="proj-header sr">
+    <div>
+      <div class="section-tag">03 — Key Projects</div>
+      <h2 class="section-heading">Projects &<br>Outcomes</h2>
+    </div>
+  </div>
+  <div class="proj-cards">
+    <div class="proj-card sr">
+      <div class="proj-card-num">01</div>
+      <div class="proj-card-body">
+        <h3 class="proj-card-title">RFM Customer Segmentation Model</h3>
+        <div class="proj-card-stack">Python · SQL · Pandas · Customer Analytics · Behavioural Segmentation</div>
+        <p class="proj-card-desc">Developed a Recency-Frequency-Monetary (RFM) segmentation model on live trading and revenue data. Engineered percentile-based scoring to classify users across high-value, loyal, at-risk, and dormant segments. Delivered actionable segment profiles to the marketing team, enabling precision-targeted retention campaigns that improved conversion rates by ~10% over broad-cast strategies.</p>
+      </div>
+      <div class="proj-card-impact">
+        <div class="proj-impact-num">+10%</div>
+        <div class="proj-impact-label">Campaign<br>Conversion Rate</div>
+      </div>
+    </div>
+    <div class="proj-card sr">
+      <div class="proj-card-num">02</div>
+      <div class="proj-card-body">
+        <h3 class="proj-card-title">User Migration Analytics Algorithm</h3>
+        <div class="proj-card-stack">Python · SQL · Product Analytics · Behavioural Tracking · User Journey Analysis</div>
+        <p class="proj-card-desc">Designed and implemented a behavioural tracking algorithm to monitor user migration patterns between trading platforms, using rolling 3-month activity windows, trade volume trends, and recency scoring. Classified users into migrated, partial adopter, and dormant cohorts — enabling the product team to deploy targeted re-engagement interventions that improved platform adoption by ~15% and reduced churn-related drop-offs.</p>
+      </div>
+      <div class="proj-card-impact">
+        <div class="proj-impact-num">+15%</div>
+        <div class="proj-impact-label">Platform<br>Adoption Rate</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                        <div class="certificate__container bd-grid">
-                            <p class="certificate__title">Fundamentals in Data Analytics(NASSCOM FutureSkills Prime)</p>
-                            <!--<p class="certificate__description">Developed building blocks of analytics and statistics to understand the foundations of Data Analytics.</p>-->
-                        </div><br>
+<!-- ═══ OPEN TO WORK ═══ -->
+<div class="otw-banner sr">
+  <div class="otw-left">
+    <div class="otw-dot"></div>
+    <div class="otw-text">
+      Actively Seeking New Opportunities
+      <small>Available immediately · Mumbai (On-site / Hybrid) & Remote · Full-time preferred</small>
+    </div>
+  </div>
+  <div class="otw-roles">
+    <div class="otw-role">Data Analyst</div>
+    <div class="otw-role">Product Analyst</div>
+    <div class="otw-role">Business Analyst</div>
+    <div class="otw-role">Analytics Engineer</div>
+  </div>
+</div>
 
-                        
-                        <div class="certificate__container bd-grid">
-                            <p class="certificate__title">Data Science(Board Infinity)</p>
-                            <!--<p class="certificate__description">Gained a solid understanding of data science and its applications through the fundamentals of data science, including data mining, machine learning, and statistical analysis.</p>-->
-                        </div><br>
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="sr-l">
+      <div class="contact-pretitle">04 — Get In Touch</div>
+      <h2 class="contact-big">
+        Ready to<br>make data<br><span>work harder.</span>
+      </h2>
+      <p class="contact-sub">
+        I'm actively looking for my next role — a team that values rigorous analysis, clean data infrastructure, and analysts who think like product stakeholders. I bring proven impact, a strong technical foundation, and the initiative to build things that last. If that fits what you're looking for, let's connect.
+      </p>
+    </div>
+    <div class="contact-links sr-r">
+      <a href="mailto:yatharth3107@gmail.com" class="clink">
+        <div class="clink-left">
+          <div class="clink-icon">✉</div>
+          <div><div class="clink-label">Email</div><div class="clink-val">yatharth3107@gmail.com</div></div>
+        </div>
+        <div class="clink-arrow">→</div>
+      </a>
+      <a href="tel:+919238459659" class="clink">
+        <div class="clink-left">
+          <div class="clink-icon">☎</div>
+          <div><div class="clink-label">Phone</div><div class="clink-val">+91 92384 59659</div></div>
+        </div>
+        <div class="clink-arrow">→</div>
+      </a>
+      <a href="https://linkedin.com/in/yatharth-singh" target="_blank" rel="noopener" class="clink">
+        <div class="clink-left">
+          <div class="clink-icon">in</div>
+          <div><div class="clink-label">LinkedIn</div><div class="clink-val">linkedin.com/in/yatharth-singh</div></div>
+        </div>
+        <div class="clink-arrow">→</div>
+      </a>
+      <a href="https://github.com/yatharth-singh" target="_blank" rel="noopener" class="clink">
+        <div class="clink-left">
+          <div class="clink-icon">⌥</div>
+          <div><div class="clink-label">GitHub</div><div class="clink-val">github.com/yatharth-singh</div></div>
+        </div>
+        <div class="clink-arrow">→</div>
+      </a>
+    </div>
+  </div>
+</section>
 
-                        <div class="certificate__container bd-grid">
-                            <p class="certificate__title">Microsoft Azure AI Fundamentals(AI-900)</p>
-                            <!--<p class="certificate__description">Coursera</p>-->
-                        </div>
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <a href="#" class="footer-logo">YS</a>
+  <div class="footer-copy">© 2026 Yatharth Singh · Data Analyst · Mumbai, India</div>
+  <div class="footer-status"><div class="footer-dot"></div>Open to opportunities · yatharth3107@gmail.com</div>
+</footer>
 
+<!-- ═══ SCRIPTS ═══ -->
+<script>
+/* ── Mobile nav ── */
+const ham = document.getElementById('hamburger');
+const drawer = document.getElementById('drawer');
+const dClose = document.getElementById('drawerClose');
+function openDrawer(){ drawer.style.display='flex'; setTimeout(()=>drawer.classList.add('open'),10); ham.classList.add('open'); document.body.style.overflow='hidden'; }
+function closeDrawer(){ drawer.classList.remove('open'); ham.classList.remove('open'); document.body.style.overflow=''; setTimeout(()=>drawer.style.display='none',360); }
+ham.addEventListener('click', ()=> drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+dClose.addEventListener('click', closeDrawer);
+document.querySelectorAll('.drawer-link').forEach(l=> l.addEventListener('click', closeDrawer));
 
-                    </section>
+/* ── Cursor (desktop only) ── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+if(cur && ring){
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
+  (function loop(){ rx+=(mx-rx)*.13; ry+=(my-ry)*.13; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(loop); })();
+  document.querySelectorAll('a, button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ cur.style.width='18px'; cur.style.height='18px'; ring.style.width='56px'; ring.style.height='56px'; ring.style.opacity='1'; });
+    el.addEventListener('mouseleave',()=>{ cur.style.width='12px'; cur.style.height='12px'; ring.style.width='38px'; ring.style.height='38px'; ring.style.opacity='.55'; });
+  });
+}
 
-                    
+/* ── Particle canvas ── */
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let W,H;
+function resize(){ W=canvas.width=canvas.offsetWidth; H=canvas.height=canvas.offsetHeight; }
+resize(); window.addEventListener('resize', resize);
 
-                    <section class="experience section" id="experience">
-                        <h2 class="section-title">Projects</h2>
+class P {
+  reset(){ this.x=Math.random()*W; this.y=Math.random()*H; this.vx=(Math.random()-.5)*.3; this.vy=(Math.random()-.5)*.3; this.r=Math.random()*1.6+.3; this.a=Math.random()*.2+.04; this.c=Math.random()<.22?'#ff4d00':'#0a2fff'; }
+  constructor(){ this.reset(); }
+  tick(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>W||this.y<0||this.y>H) this.reset(); }
+  draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=this.c; ctx.globalAlpha=this.a; ctx.fill(); }
+}
+const particles = Array.from({length: window.innerWidth < 600 ? 50 : 110}, ()=> new P());
 
-                        <div class="experience__container bd-grid">
-                            <div class="experience__content">
-                                <div class="experience__time">
-                                    <span class="experience__rounder"></span>
-                                    <span class="experience__line"></span>
-                                </div>
-                                <div class="experience__data bd-grid">
-                                    <h6><span class="experience__company">From Nov 2023 to Dec 2023 | MEDILINK-ONE HEALTH ONECARD</span></h6>
-                                    <p class="experience__description", align="justify">
-                                        - Pioneered the conceptualization of the Medilink-One Health One Card project,
-                                        outlining strategies for a projected 30% improvement in medical process
-                                        efficiency.<br>
-                                        - Proposed enhancements for doctor - patient communication, anticipating a 20%
-                                        increase in timely diagnosis.<br>
-                                        - Designed predictive analytics with CNNs and SVM, with an expect edpotential
-                                        for a 25% improvement in early disease detection.<br>
-                                        - Outlined innovative health care solutions, targeting a projected 15% overall
-                                          enhancement in public health outcomes upon implementation.<br>
-                                        - Technology: OpenCV, TensorFlow, and SQLite.<br>
-                                        - Team Project: 4 members.<br>
-                                        -Role: Machine Learning(Model Training and testing)<br>
-                                    </p>
-                                </div>
-                            </div>
+const orbs=[
+  {px:.22,py:.38,r:.38,c:'rgba(255,77,0,0.1)'},
+  {px:.78,py:.62,r:.42,c:'rgba(10,47,255,0.08)'},
+  {px:.5,py:.82,r:.26,c:'rgba(0,229,200,0.065)'},
+];
+let t=0;
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  orbs.forEach((o,i)=>{
+    const bx=o.px+Math.sin(t*.00065+i*1.3)*.055;
+    const by=o.py+Math.cos(t*.00055+i*1.1)*.04;
+    const g=ctx.createRadialGradient(bx*W,by*H,0,bx*W,by*H,o.r*Math.max(W,H));
+    g.addColorStop(0,o.c); g.addColorStop(1,'transparent');
+    ctx.globalAlpha=1; ctx.fillStyle=g;
+    ctx.beginPath(); ctx.arc(bx*W,by*H,o.r*Math.max(W,H),0,Math.PI*2); ctx.fill();
+  });
+  particles.forEach(p=>{ p.tick(); p.draw(); });
+  ctx.globalAlpha=1; t++;
+  requestAnimationFrame(draw);
+}
+draw();
 
-                            <div class="experience__content">
-                                <div class="experience__time">
-                                    <span class="experience__rounder"></span>
-                                    <span class="experience__line"></span>
-                                </div>
-                                <div class="experience__data bd-grid">
-                                    <h6><span class="experience__company">From Sept 2023 | Emotion-Face Detection</span></h6>
-                                    <p class="experience__description", align="justify">- Description: Achieved an outstanding accuracy of 92% in emotion detection using a facial expression CNN
-                                        model.<br>
-                                        - Trained the model on a diverse dataset of 10,000 facial images, ensuring comprehensive coverage of
-                                        emotions.<br>
-                                        - Demonstrated the effectiveness of the CNN model by accurately classifying emotions such as happiness,
-                                        sadness, anger, and surprise with a validation accuracy of 92%, outperforming previous approaches by 15%.<br>
-                                        - Technology: OpenCV and deep learning.<br>
-                                        - Team Project: 3 members.<br>
-                                        - Role: Machine Learning (Data Preprocessing and Model Training).
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!--========== LANGUAGES ==========-->
-                    <section class="languages section">
-                        <h2 class="section-title">languages</h2><br>
-
-                        <div class="languages__container">
-                            <ul class="languages__content bd-grid">
-                                <li class="languages__name">
-                                    <span class="languages__circle"></span>English
-                                </li>
-
-                                <li class="languages__name">
-                                    <span class="languages__circle"></span>Hindi
-                                </li>
-
-                            </ul>
-                        </div>
-                    </section>
-                    
-                    <!--========== INTERESTS ==========-->
-                    <section class="interests section">
-                        <h2 class="section-title">interests</h2>
-
-                        <div class="interests__container bd-grid">
-
-                            <div class="interests__content">
-                                <i class='bx bx-headphone interests__icon' ></i>
-                                <span class="interests__name inter">Music</span>
-                            </div>
-
-                            <div class="interests__content">
-                                <i class='bx bxs-plane-alt interests__icon' ></i>
-                                <span class="interests__name">Travel</span>
-                            </div>
-
-                            <div class="interests__content">
-                                <i class='bx bxs-palette interests__icon' ></i>
-                                <span class="interests__name">Painting</span>
-                            </div>
-
-                            <div class="interests__content">
-                                <i class='bx bxs-cricket-ball interests__icon' ></i>
-                                <span class="interests__name">Sports</span>
-                            </div>
-
-                        </div>
-                    </section>
-                </div>
-            </div>        
-        </main>
-
-        <!--========== SCROLL TOP ==========-->
-        <a href="" class="scrolltop" id="scroll-top">
-            <i class='bx bx-up-arrow-alt scrolltop__icon' ></i>
-        </a>
-
-        <!--========== HTML2PDF ==========-->
-        <script src="assets/js/main.js"></script>
-
-        <!--========== MAIN JS ==========-->
-        <script src="assets/js/main.js"></script>
-    </body>
+/* ── Scroll reveal ── */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{ if(e.isIntersecting) setTimeout(()=>e.target.classList.add('vis'), i*55); });
+},{threshold:0.07});
+document.querySelectorAll('.sr,.sr-l,.sr-r').forEach(el=>obs.observe(el));
+</script>
+</body>
 </html>
